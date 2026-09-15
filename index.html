@@ -239,9 +239,11 @@ body{
 
 /* The fifth question gets its own weight */
 .question--final{
-  font-style:italic;font-weight:500;
+  /* Upright, not italic: Bodoni's italic y carries a swash that loops back
+     over its neighbours — it knots up "your" and "boyfriend" badly. */
+  font-style:normal;font-weight:500;
   font-size:clamp(2.3rem,7.4vw,5.1rem);
-  line-height:1.02;letter-spacing:-.02em;
+  line-height:1.03;letter-spacing:-.008em;
   color:var(--tan);
   text-shadow:0 0 70px rgba(210,180,140,.4);
 }
@@ -253,6 +255,7 @@ body{
 
 /* The two of us — only after the yes */
 .screen--finale .question--final{
+  font-weight:400;
   font-size:clamp(2.25rem,6.3vw,4.3rem);
   font-size:clamp(2.25rem,6.3vw,min(4.3rem,8.6svh));  /* give height back on short screens */
   line-height:1.05;
@@ -631,7 +634,7 @@ body{
     screen.classList.add('is-out');
     await wait(500);
     screen.innerHTML = `
-      <h1 class="question question--final">Best answer in recorded history.</h1>
+      <h1 class="question question--final">Best answer in recorded history</h1>
       <p class="closing">Some dates are worth remembering. Today's especially.</p>
       <div class="gallery">
         <figure class="shot"><img src="images/IMG_4833.jpeg" width="1170" height="1560" alt="The two of us, late afternoon"></figure>
