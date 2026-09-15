@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Five Questions</title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
@@ -250,6 +251,36 @@ body{
   font-size:.94rem;line-height:1.65;color:var(--dim);
 }
 
+/* The two of us — only after the yes */
+.screen--finale .question--final{
+  font-size:clamp(1.6rem,4.6vw,2.95rem);
+  line-height:1.07;
+}
+.screen--finale .closing{margin-top:15px;font-size:.88rem}
+
+.gallery{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(12px,2.2vw,24px);
+  width:min(100%,600px,68vh);
+  width:min(100%,600px,68svh);
+  margin:clamp(22px,4.2vh,40px) auto 0;
+}
+.shot{
+  margin:0;
+  aspect-ratio:3/4;
+  overflow:hidden;border-radius:4px;
+  border:1px solid rgba(210,180,140,.3);
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.95);
+  animation:shotIn .9s var(--ease) both;
+}
+.shot:nth-child(1){animation-delay:.3s}
+.shot:nth-child(2){animation-delay:.48s}
+.shot img{display:block;width:100%;height:100%;object-fit:cover}
+@keyframes shotIn{
+  from{opacity:0;transform:translateY(24px) scale(.97)}
+  to  {opacity:1;transform:none}
+}
+
 /* ─────────────────────────────────────────────────────────────
    Curtain
    ───────────────────────────────────────────────────────────── */
@@ -341,7 +372,7 @@ body{
    ───────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion:reduce){
   .blob{animation:none}
-  .option,.screen.is-in{animation:none}
+  .option,.screen.is-in,.shot{animation:none}
   .btn--yes.is-breathing{animation:none}
   .curtain__panel,.curtain__valance{transition-duration:.45s !important}
   .curtain.is-open .curtain__panel--l,
@@ -514,6 +545,9 @@ body{
 
   /* ── The curtain ───────────────────────────────────────── */
   async function theatre() {
+    // Fetch the photos now so they are decoded long before the yes
+    ['images/IMG_4833.jpeg', 'images/IMG_5385.JPG'].forEach(src => { new Image().src = src; });
+
     constellation.classList.add('is-gone');
     screen.classList.add('is-out');
     await wait(420);
@@ -522,6 +556,7 @@ body{
     void curtain.offsetWidth;
     curtain.classList.add('is-closed');        // sweep in
     await wait(1150);
+    constellation.style.display = 'none';      // collapse it while the velvet hides the reflow
     await wait(750);                           // hold, velvet shimmers
 
     // Set the fifth question behind the closed curtain
@@ -596,7 +631,12 @@ body{
     await wait(500);
     screen.innerHTML = `
       <h1 class="question question--final">Best answer in recorded history.</h1>
-      <p class="closing">Some dates are worth remembering. Today's especially.</p>`;
+      <p class="closing">Some dates are worth remembering. Today's especially.</p>
+      <div class="gallery">
+        <figure class="shot"><img src="images/IMG_4833.jpeg" width="1170" height="1560" alt="The two of us, late afternoon"></figure>
+        <figure class="shot"><img src="images/IMG_5385.JPG" width="1204" height="1560" alt="The two of us, that night"></figure>
+      </div>`;
+    screen.classList.add('screen--finale');
     screen.classList.remove('is-out', 'is-in');
     void screen.offsetWidth;
     screen.classList.add('is-in');
