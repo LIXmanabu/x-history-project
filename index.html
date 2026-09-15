@@ -253,10 +253,11 @@ body{
 
 /* The two of us — only after the yes */
 .screen--finale .question--final{
-  font-size:clamp(1.95rem,5.4vw,3.7rem);
-  line-height:1.06;
+  font-size:clamp(2.25rem,6.3vw,4.3rem);
+  font-size:clamp(2.25rem,6.3vw,min(4.3rem,8.6svh));  /* give height back on short screens */
+  line-height:1.05;
 }
-.screen--finale .closing{margin-top:18px;font-size:.98rem;max-width:38ch}
+.screen--finale .closing{margin-top:18px;font-size:1.04rem;max-width:38ch}
 
 .gallery{
   display:grid;grid-template-columns:1fr 1fr;
